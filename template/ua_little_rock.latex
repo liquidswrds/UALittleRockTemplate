@@ -1,8 +1,8 @@
 \documentclass[12pt]{report}
 
 % Packages
-\usepackage{graphicx}
-\usepackage{setspace}
+\usepackage{graphicx}             
+\usepackage{setspace}             % for double spacing
 \usepackage[margin=1in]{geometry} % for page margins
 \usepackage{titlesec}             % for section formatting
 \usepackage{tocloft}              % for table of contents customization
@@ -14,10 +14,37 @@
 \titleformat{\section}[block]{\normalfont\Large\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}[block]{\normalfont\large\bfseries}{\thesubsection}{1em}{}
 
-% ToC Formatting
-\renewcommand{\contentsname}{Table of Content}
-\renewcommand{\cfttoctitlefont}{\Large\bfseries}
 
+% ToC Formatting
+
+% Title settings
+\renewcommand{\contentsname}{\textbf{\large Table of Contents}}
+
+% Reduce space after the title
+\setlength{\cftbeforetoctitleskip}{0pt} % Space above the title
+\setlength{\cftaftertoctitleskip}{11pt} % Space below the title before the first line
+
+% General settings
+\setcounter{secnumdepth}{0} % Remove numbering in ToC
+\setcounter{tocdepth}{3} % Include up to subsubsections in ToC
+
+% Chapter-level (TOC1) settings
+\renewcommand{\cftchapfont}{\normalfont}
+\renewcommand{\cftchapdotsep}{\cftdotsep}
+\renewcommand{\cftchapindent}{0pt}
+\renewcommand{\cftchapafterpnum}{\vskip 11pt} % Increased space after chapter entries
+
+% Section-level (TOC2) settings
+\renewcommand{\cftsecindent}{0.15in} % Indent for sections
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsecafterpnum}{\vskip 11pt} % Increased space after section entries
+
+% Subsection-level (TOC3) settings
+\renewcommand{\cftsubsecindent}{0.30in} % Indent for subsections
+\renewcommand{\cftsubsecfont}{\normalfont}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecafterpnum}{\vskip 11pt} % Increased space after subsection entries
 
 % Custom header and page numbering
 \pagestyle{fancy}
@@ -208,6 +235,7 @@ $endif$
     {\large\bfseries\sffamily{Abstract} \par}
     \vspace{.5cm}
     $abstract$
+    \doublespacing
 \end{flushleft}
 
 % Dedication and Acknowledgements on the same page
@@ -218,6 +246,7 @@ $if(dedication)$
     {\large\bfseries\sffamily{Dedication} \par}
     \vspace{.5cm}
     $dedication$
+    \doublespacing
 \end{flushleft}
 $endif$
 
@@ -230,6 +259,7 @@ $if(acknowledgements)$
     {\large\bfseries\sffamily{Acknowledgements} \par}
     \vspace{.5cm}
     $acknowledgements$
+    \doublespacing
 \end{flushleft}
 $endif$
 
@@ -238,10 +268,21 @@ $endif$
 \tableofcontents
 \thispagestyle{fancy} % Use the fancy page style
 
+% List of Figures
+
+
+% List of Tables
+
+
+% List of Symbols, Abbreviations, and Nomenclature
+
+
 % Chapters (to be filled in Markdown)
 \newpage
 \pagenumbering{arabic}
 \setcounter{page}{1}
+\doublespacing
 $body$
+
 
 \end{document}
