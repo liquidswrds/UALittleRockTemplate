@@ -1,0 +1,247 @@
+\documentclass[12pt]{report}
+
+% Packages
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage[margin=1in]{geometry} % for page margins
+\usepackage{titlesec}             % for section formatting
+\usepackage{tocloft}              % for table of contents customization
+\usepackage{fancyhdr}             % for header/footer customization
+\usepackage{helvet}               % for Arial font
+
+% Header Formatting
+\titleformat{\chapter}[block]{\normalfont\huge\bfseries}{\thechapter.}{1em}{}
+\titleformat{\section}[block]{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}[block]{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+% ToC Formatting
+\renewcommand{\contentsname}{Table of Content}
+\renewcommand{\cfttoctitlefont}{\Large\bfseries}
+
+
+% Custom header and page numbering
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% Roman numeral page numbers for preliminary sections
+\pagenumbering{roman}
+
+% Pandoc Variables
+$if(title)$
+\newcommand{\thesistitle}{$title$}
+$else$
+\newcommand{\thesistitle}{[Title Placeholder]}
+$endif$
+
+$if(subtitle)$
+\newcommand{\secondtitle}{$subtitle$}
+$else$
+\newcommand{\secondtitle}{[Subtitle Placeholder]}
+$endif$
+
+$if(author)$
+\newcommand{\authorname}{$author$}
+$else$
+\newcommand{\authorname}{[Author Placeholder]}
+$endif$
+
+% Degree Type Logic
+$if(doctor)$
+\newcommand{\degree}{Doctor of Philosophy}
+\newcommand{\submissiontype}{dissertation}
+$elseif(MoS)$
+\newcommand{\degree}{Master of Science}
+\newcommand{\submissiontype}{thesis}
+$elseif(MoA)$
+\newcommand{\degree}{Master of Arts}
+\newcommand{\submissiontype}{thesis}
+$endif$
+
+$if(program)$
+\newcommand{\program}{$program$}
+$else$
+\newcommand{\program}{[Program Placeholder]}
+$endif$
+
+$if(department)$
+\newcommand{\department}{$department$}
+$else$
+\newcommand{\department}{[Department Placeholder]}
+$endif$
+
+$if(college)$
+\newcommand{\college}{$college$}
+$else$
+\newcommand{\college}{[College Placeholder]}
+$endif$
+
+$if(gradmonthyear.month)$
+\newcommand{\gradmonth}{$gradmonthyear.month$}
+$else$
+\newcommand{\gradmonth}{[Month Placeholder]}
+$endif$
+
+$if(gradmonthyear.year)$
+\newcommand{\gradyear}{$gradmonthyear.year$}
+$else$
+\newcommand{\gradyear}{[Year Placeholder]}
+$endif$
+
+$if(chair_name)$
+\newcommand{\chairname}{$chair_name$}
+$else$
+\newcommand{\chairname}{[Chair Name Placeholder]}
+$endif$
+
+$if(chair_title)$
+\newcommand{\chairtitle}{$chair_title$}
+$else$
+\newcommand{\chairtitle}{[Chair Title Placeholder]}
+$endif$
+
+$if(chair_department)$
+\newcommand{\chairdepartment}{$chair_department$}
+$else$
+\newcommand{\chairdepartment}{[Chair Department Placeholder]}
+$endif$
+
+$if(cochair_name)$
+\newcommand{\cochairname}{$cochair_name$}
+$else$
+\newcommand{\cochairname}{[Co-chair Name Placeholder]}
+$endif$
+
+$if(cochair_title)$
+\newcommand{\cochairtitle}{$cochair_title$}
+$else$
+\newcommand{\cochairtitle}{[Co-chair Title Placeholder]}
+$endif$
+
+$if(cochair_department)$
+\newcommand{\cochairdepartment}{$cochair_department$}
+$else$
+\newcommand{\cochairdepartment}{[Co-chair Department Placeholder]}
+$endif$
+
+% Committee Members
+\newcommand{\committeemembers}{
+$if(committee_members)$
+$for(committee_members)$
+\noindent $committee_members.name$, $committee_members.title$%
+$if(committee_members.department)$
+{} of $committee_members.department$%
+$endif$
+$if(committee_members.university_affiliation)$
+, $committee_members.university_affiliation$%
+$endif$
+$if(committee_members.employer)$
+, $committee_members.employer$%
+$endif$
+\par
+$endfor$
+$else$
+[Committee Members Placeholder]
+$endif$
+}
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+    \begin{flushleft}
+        \includegraphics{img/ua-little-rock.png}
+    \end{flushleft}
+    \begin{flushleft}
+        \vspace{.5cm}
+        {\Large\bfseries\sffamily \thesistitle \par}
+        {\Large\bfseries\sffamily \secondtitle \par}
+        \vspace{1cm}
+        {\normalsize\bfseries\sffamily \authorname \par}
+        {\normalsize \gradmonth{} \gradyear \par}
+        \vspace{1cm}
+        {\normalsize A \submissiontype{} submitted to the Graduate School \\ University of Arkansas at Little Rock \par}
+        \vspace {1cm}
+        {\normalsize in partial fulfillment of the requirements for the degree of \par}
+        {\normalsize\bfseries\sffamily \degree \par}
+        {\normalsize in \program \par}
+        \vspace {1cm}
+        {\normalsize in the Department of \department \par}
+        {\normalsize in the College of \college \par}
+        \hrulefill \\
+        \vspace{0.5cm}
+        {\normalsize\bfseries\sffamily {APPROVED BY} \par}
+        \vspace{0.5cm}
+        {\normalsize\bfseries\sffamily Committee Chair: \par}
+        \chairname, \chairtitle{} of \chairdepartment \par
+        $if(cochair_name)$
+        {\normalsize\bfseries\sffamily Co-chair: \par}
+        \cochairname, \cochairtitle{} of \cochairdepartment \par
+        $endif$
+        \vspace{1cm}
+        {\normalsize\bfseries\sffamily Committee members: \par}
+        \committeemembers
+    \end{flushleft}
+\end{titlepage}
+
+% Copyright Page
+\newpage
+\thispagestyle{fancy}
+\setcounter{page}{2}
+\begin{flushleft}
+    \textcopyright{} \gradyear{} by \authorname \\
+    All rights reserved. \\
+    \vspace{1.5cm}
+    {\large\bfseries\sffamily{Fair Use} \par}
+    \vspace{.5cm}
+    This \submissiontype{} is protected by the copyright laws of the United States (Title 17 of the United States Code, revised in December 2022). Consistent with fair use as defined in Section 107 of Title 17, brief quotations from this material are allowed with proper acknowledgment. Use of this material for financial gain without the author’s express written permission is not allowed. \\
+    \vspace{1.5cm}
+    {\large\bfseries\sffamily{Duplication} \par}
+    \vspace{.5cm}
+    I authorize the Head of Interlibrary Loan or the Head of Archives at the Ottenheimer Library at the University of Arkansas at Little Rock to arrange for duplication of this \submissiontype{} for educational or scholarly purposes when so requested by a library user. The duplication will be at the user’s expense.
+\end{flushleft}
+
+% Abstract
+\newpage
+\thispagestyle{fancy}
+\begin{flushleft}
+    {\large\bfseries\sffamily{Abstract} \par}
+    \vspace{.5cm}
+    $abstract$
+\end{flushleft}
+
+% Dedication and Acknowledgements on the same page
+$if(dedication)$
+\newpage
+\thispagestyle{fancy}
+\begin{flushleft}
+    {\large\bfseries\sffamily{Dedication} \par}
+    \vspace{.5cm}
+    $dedication$
+\end{flushleft}
+$endif$
+
+$if(dedication)$$if(acknowledgements)$
+\vspace{1cm}
+$endif$$endif$
+
+$if(acknowledgements)$
+\begin{flushleft}
+    {\large\bfseries\sffamily{Acknowledgements} \par}
+    \vspace{.5cm}
+    $acknowledgements$
+\end{flushleft}
+$endif$
+
+% Table of Contents
+\newpage
+\tableofcontents
+\thispagestyle{fancy} % Use the fancy page style
+
+% Chapters (to be filled in Markdown)
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+$body$
+
+\end{document}
