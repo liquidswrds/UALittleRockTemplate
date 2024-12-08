@@ -19,6 +19,10 @@
 \usepackage{tocloft}              % Customization of the Table of Contents
 \usepackage{fancyhdr}             % Custom headers and footers
 \usepackage{helvet}               % Use Helvetica font (similar to Arial)
+\usepackage{indentfirst}          % Indent the first paragraph of each section
+\usepackage{etoolbox}             % Toolbox of programming tools
+\usepackage{footmisc}             % Customization of footnotes
+\usepackage{pdfpages}             % Include PDF documents
 
 
 % ======================================================================
@@ -50,19 +54,19 @@
 \renewcommand{\cftchapfont}{\normalfont}
 \renewcommand{\cftchapdotsep}{\cftdotsep}
 \renewcommand{\cftchapindent}{0pt}
-\renewcommand{\cftchapafterpnum}{\vskip 11pt} % Space after chapter entries
+ % Space after chapter entries
 
 % Section entries (level 2) formatting in ToC
 \renewcommand{\cftsecindent}{0.15in} % Indentation for sections
 \renewcommand{\cftsecfont}{\normalfont}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
-\renewcommand{\cftsecafterpnum}{\vskip 11pt} % Space after section entries
+
 
 % Subsection entries (level 3) formatting in ToC
 \renewcommand{\cftsubsecindent}{0.30in} % Indentation for subsections
 \renewcommand{\cftsubsecfont}{\normalfont}
 \renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
-\renewcommand{\cftsubsecafterpnum}{\vskip 11pt} % Space after subsection entries
+
 
 
 % ======================================================================
@@ -74,6 +78,8 @@
 \fancyhf{}         % Clear all header and footer fields
 \fancyhead[R]{\thepage} % Right-aligned page number in the header
 \renewcommand{\headrulewidth}{0pt} % Remove header rule line
+
+\renewcommand{\footnotelayout}{\setstretch{1.0}}
 
 
 % ======================================================================
@@ -121,8 +127,6 @@ $else$
 \newcommand{\degree}{[Placeholder Degree]}
 \newcommand{\submissiontype}{[Placeholder Submission Type]}
 $endif$
-
-
 
 $if(program)$
 \newcommand{\program}{$program$}
@@ -216,6 +220,13 @@ $else$
 $endif$
 }
 
+%======================================================================
+% Bibliographic entries (references)
+%======================================================================
+\AtBeginEnvironment{thebibliography}{\singlespacing}
+
+
+
 % ======================================================================
 % Document Begins
 % ======================================================================
@@ -224,7 +235,9 @@ $endif$
 
 \begin{document}
 
+% ======================================================================
 % Title Page
+% ======================================================================
 \begin{titlepage}
     \begin{flushleft}
         \includegraphics{img/ua-little-rock.png}
@@ -261,11 +274,14 @@ $endif$
     \end{flushleft}
 \end{titlepage}
 
+% ======================================================================
 % Copyright Page
+% ======================================================================
 \newpage
 \thispagestyle{fancy}
 \setcounter{page}{2}
 \begin{flushleft}
+    \singlespacing
     \textcopyright{} \gradyear{} by \authorname \\
     All rights reserved. \\
     \vspace{1.5cm}
@@ -278,25 +294,29 @@ $endif$
     I authorize the Head of Interlibrary Loan or the Head of Archives at the Ottenheimer Library at the University of Arkansas at Little Rock to arrange for duplication of this \submissiontype{} for educational or scholarly purposes when so requested by a library user. The duplication will be at the user’s expense.
 \end{flushleft}
 
+% ======================================================================
 % Abstract
+% ======================================================================
 \newpage
 \thispagestyle{fancy}
 \begin{flushleft}
     {\large\bfseries\sffamily{Abstract} \par}
     \vspace{.5cm}
-    $abstract$
     \doublespacing
+    $abstract$
 \end{flushleft}
 
+% ======================================================================
 % Dedication and Acknowledgements on the same page
+% ======================================================================
 $if(dedication)$
 \newpage
 \thispagestyle{fancy}
 \begin{flushleft}
     {\large\bfseries\sffamily{Dedication} \par}
     \vspace{.5cm}
-    $dedication$
     \doublespacing
+    $dedication$
 \end{flushleft}
 $endif$
 
@@ -308,30 +328,75 @@ $if(acknowledgements)$
 \begin{flushleft}
     {\large\bfseries\sffamily{Acknowledgements} \par}
     \vspace{.5cm}
-    $acknowledgements$
     \doublespacing
+    $acknowledgements$
 \end{flushleft}
 $endif$
 
-% Table of Contents
+% ======================================================================
+% Protocol or IRB approval letter
+% ======================================================================
+$if(protocol_irb_approval)$
 \newpage
+\thispagestyle{fancy}
+\includepdf[pages=-]{$protocol_irb_approval$}
+$endif$
+
+% ======================================================================
+% Table of Contents
+% ======================================================================
+\newpage
+\doublespacing
 \tableofcontents
 \thispagestyle{fancy} % Use the fancy page style
 
+% ======================================================================
 % List of Figures
+% ======================================================================
+$if(list_of_figures)$
+\newpage
+\doublespacing
+\listoffigures
+\thispagestyle{fancy} % Use the fancy page style
+$endif$
 
-
+% ======================================================================
 % List of Tables
+% ======================================================================
+$if(list_of_tables)$
+\newpage
+\doublespacing
+\listoftables
+\thispagestyle{fancy} % Use the fancy page style
+$endif$
 
-
+% ======================================================================
 % List of Symbols, Abbreviations, and Nomenclature
+% ======================================================================
+$if(list_of_symbols)$
+\newpage
+\doublespacing
+\begin{flushleft}
+    {\large\bfseries\sffamily{List of Symbols, Abbreviations, and Nomenclature} \par}
+    \vspace{.5cm}
+    \doublespacing
+    $list_of_symbols$
+\end{flushleft}
+$endif$
 
-
+% ======================================================================
 % Chapters (to be filled in Markdown)
+% List of Appendices
+% ======================================================================
 \newpage
 \pagenumbering{arabic}
 \setcounter{page}{1}
 \doublespacing
+
+% Indent paragraphs in the body
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0em}
+
 $body$
 
 \end{document}
