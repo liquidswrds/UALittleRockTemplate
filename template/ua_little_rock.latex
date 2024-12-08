@@ -1,61 +1,95 @@
-\documentclass[12pt]{report}
+% ======================================================================
+% Document Class
+% ======================================================================
+% The 'report' class is suitable for longer documents containing chapters.
+% The font size is set via a Pandoc variable 'font_size', defaulting to 12pt if not specified.
+% ======================================================================
+\documentclass[$if(font_size)$$font_size$$else$12pt$endif$]{report}
 
-% Packages
-\usepackage{graphicx}             
-\usepackage{setspace}             % for double spacing
-\usepackage[margin=1in]{geometry} % for page margins
-\usepackage{titlesec}             % for section formatting
-\usepackage{tocloft}              % for table of contents customization
-\usepackage{fancyhdr}             % for header/footer customization
-\usepackage{helvet}               % for Arial font
+% ======================================================================
+% Package Inclusions
+% ======================================================================
+% Including necessary packages to extend LaTeX functionality.
+% It's best to load only required packages to avoid conflicts and reduce compilation time.
+% ======================================================================
+\usepackage{graphicx}             % Enhanced support for graphics
+\usepackage{setspace}             % Control over line spacing
+\usepackage[margin=1in]{geometry} % Customize page dimensions and margins
+\usepackage{titlesec}             % Customization of section titles
+\usepackage{tocloft}              % Customization of the Table of Contents
+\usepackage{fancyhdr}             % Custom headers and footers
+\usepackage{helvet}               % Use Helvetica font (similar to Arial)
 
-% Header Formatting
+
+% ======================================================================
+% Section Title Formatting
+% ======================================================================
+% Customizing the appearance of chapter, section, and subsection titles.
+% ======================================================================
 \titleformat{\chapter}[block]{\normalfont\huge\bfseries}{\thechapter.}{1em}{}
 \titleformat{\section}[block]{\normalfont\Large\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}[block]{\normalfont\large\bfseries}{\thesubsection}{1em}{}
 
 
-% ToC Formatting
+% ======================================================================
+% Table of Contents (ToC) Formatting
+% ======================================================================
+% Adjusting the appearance and depth of entries in the Table of Contents.
+% ======================================================================
+\renewcommand{\contentsname}{\textbf{\large Table of Contents}} % ToC title styling
 
-% Title settings
-\renewcommand{\contentsname}{\textbf{\large Table of Contents}}
+% Spacing adjustments around the ToC title
+\setlength{\cftbeforetoctitleskip}{0pt}  % Space above the ToC title
+\setlength{\cftaftertoctitleskip}{11pt}  % Space below the ToC title
 
-% Reduce space after the title
-\setlength{\cftbeforetoctitleskip}{0pt} % Space above the title
-\setlength{\cftaftertoctitleskip}{11pt} % Space below the title before the first line
+% Control depth of numbered and displayed sections in the ToC
+\setcounter{secnumdepth}{0} % No numbering in ToC
+\setcounter{tocdepth}{3}    % Include up to subsubsections
 
-% General settings
-\setcounter{secnumdepth}{0} % Remove numbering in ToC
-\setcounter{tocdepth}{3} % Include up to subsubsections in ToC
-
-% Chapter-level (TOC1) settings
+% Chapter entries (level 1) formatting in ToC
 \renewcommand{\cftchapfont}{\normalfont}
 \renewcommand{\cftchapdotsep}{\cftdotsep}
 \renewcommand{\cftchapindent}{0pt}
-\renewcommand{\cftchapafterpnum}{\vskip 11pt} % Increased space after chapter entries
+\renewcommand{\cftchapafterpnum}{\vskip 11pt} % Space after chapter entries
 
-% Section-level (TOC2) settings
-\renewcommand{\cftsecindent}{0.15in} % Indent for sections
+% Section entries (level 2) formatting in ToC
+\renewcommand{\cftsecindent}{0.15in} % Indentation for sections
 \renewcommand{\cftsecfont}{\normalfont}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
-\renewcommand{\cftsecafterpnum}{\vskip 11pt} % Increased space after section entries
+\renewcommand{\cftsecafterpnum}{\vskip 11pt} % Space after section entries
 
-% Subsection-level (TOC3) settings
-\renewcommand{\cftsubsecindent}{0.30in} % Indent for subsections
+% Subsection entries (level 3) formatting in ToC
+\renewcommand{\cftsubsecindent}{0.30in} % Indentation for subsections
 \renewcommand{\cftsubsecfont}{\normalfont}
 \renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
-\renewcommand{\cftsubsecafterpnum}{\vskip 11pt} % Increased space after subsection entries
+\renewcommand{\cftsubsecafterpnum}{\vskip 11pt} % Space after subsection entries
 
-% Custom header and page numbering
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[R]{\thepage}
-\renewcommand{\headrulewidth}{0pt}
 
-% Roman numeral page numbers for preliminary sections
+% ======================================================================
+% Header and Footer Customization
+% ======================================================================
+% Setting up custom headers and footers using the 'fancyhdr' package.
+% ======================================================================
+\pagestyle{fancy}  % Enable custom headers/footers
+\fancyhf{}         % Clear all header and footer fields
+\fancyhead[R]{\thepage} % Right-aligned page number in the header
+\renewcommand{\headrulewidth}{0pt} % Remove header rule line
+
+
+% ======================================================================
+% Page Numbering for Preliminary Sections
+% ======================================================================
+% Using Roman numerals for front matter (e.g., Table of Contents, Abstract).
+% ======================================================================
 \pagenumbering{roman}
 
+
+% ======================================================================
 % Pandoc Variables
+% ======================================================================
+% Defining commands based on metadata variables provided by Pandoc.
+% These commands allow dynamic content insertion based on user input.
+% ======================================================================
 $if(title)$
 \newcommand{\thesistitle}{$title$}
 $else$
@@ -74,17 +108,21 @@ $else$
 \newcommand{\authorname}{[Author Placeholder]}
 $endif$
 
-% Degree Type Logic
-$if(doctor)$
+$if(PHD)$
 \newcommand{\degree}{Doctor of Philosophy}
 \newcommand{\submissiontype}{dissertation}
-$elseif(MoS)$
-\newcommand{\degree}{Master of Science}
-\newcommand{\submissiontype}{thesis}
-$elseif(MoA)$
+$elseif(MA)$
 \newcommand{\degree}{Master of Arts}
 \newcommand{\submissiontype}{thesis}
+$elseif(MS)$
+\newcommand{\degree}{Master of Science}
+\newcommand{\submissiontype}{thesis}
+$else$
+\newcommand{\degree}{[Placeholder Degree]}
+\newcommand{\submissiontype}{[Placeholder Submission Type]}
 $endif$
+
+
 
 $if(program)$
 \newcommand{\program}{$program$}
@@ -152,7 +190,12 @@ $else$
 \newcommand{\cochairdepartment}{[Co-chair Department Placeholder]}
 $endif$
 
+% ======================================================================
 % Committee Members
+% ======================================================================
+% Dynamically generates the list of committee members.
+% Iterates over 'committee_members' metadata provided by Pandoc.
+% ======================================================================
 \newcommand{\committeemembers}{
 $if(committee_members)$
 $for(committee_members)$
@@ -172,6 +215,13 @@ $else$
 [Committee Members Placeholder]
 $endif$
 }
+
+% ======================================================================
+% Document Begins
+% ======================================================================
+% The main content of the document starts here.
+% ======================================================================
+
 \begin{document}
 
 % Title Page
@@ -283,6 +333,5 @@ $endif$
 \setcounter{page}{1}
 \doublespacing
 $body$
-
 
 \end{document}
