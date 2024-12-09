@@ -12,6 +12,7 @@
 % Including necessary packages to extend LaTeX functionality.
 % It's best to load only required packages to avoid conflicts and reduce compilation time.
 % ======================================================================
+\usepackage[utf8]{inputenc}       % Allow UTF-8 encoded characters
 \usepackage{graphicx}             % Enhanced support for graphics
 \usepackage{setspace}             % Control over line spacing
 \usepackage[margin=1in]{geometry} % Customize page dimensions and margins
@@ -23,6 +24,28 @@
 \usepackage{etoolbox}             % Toolbox of programming tools
 \usepackage{footmisc}             % Customization of footnotes
 \usepackage{pdfpages}             % Include PDF documents
+\usepackage{longtable}            % Tables that can span multiple pages
+\usepackage{booktabs}             % Enhances table styles
+\usepackage{caption}              % Provides caption customization
+\usepackage{calc}                 % Supports arithmetic calculations
+\usepackage{array}                % Extended array and tabular features
+\usepackage{multirow}             % Allows table cells to span multiple rows
+\usepackage{framed}               % Adds framed environment
+\usepackage{xcolor}               % Color support
+\usepackage{fancyvrb}             % Verbatim environment
+\usepackage{amsmath,amssymb}     % Enhanced math support
+\usepackage{lmodern}              % Latin Modern font
+
+% ======================================================================
+% blockquote
+% ======================================================================
+\definecolor{blockquote-border}{RGB}{221,221,221}
+\definecolor{blockquote-text}{RGB}{119,119,119}
+\usepackage{mdframed}
+\newmdenv[rightline=false,bottomline=false,topline=false,linewidth=3pt,linecolor=blockquote-border,skipabove=\parskip]{customblockquote}
+\renewenvironment{quote}{\begin{customblockquote}\list{}{\rightmargin=0em\leftmargin=0em}%
+\item\relax\color{blockquote-text}\ignorespaces}{\unskip\unskip\endlist\end{customblockquote}}
+
 
 
 % ======================================================================
@@ -33,7 +56,7 @@
 \titleformat{\chapter}[block]{\normalfont\huge\bfseries}{\thechapter.}{1em}{}
 \titleformat{\section}[block]{\normalfont\Large\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}[block]{\normalfont\large\bfseries}{\thesubsection}{1em}{}
-
+\titleformat{\subsubsection}[block]{\normalfont\large\bfseries}{\thesubsubsection}{1em}{}
 
 % ======================================================================
 % Table of Contents (ToC) Formatting
@@ -54,19 +77,56 @@
 \renewcommand{\cftchapfont}{\normalfont}
 \renewcommand{\cftchapdotsep}{\cftdotsep}
 \renewcommand{\cftchapindent}{0pt}
- % Space after chapter entries
+\renewcommand{\cftchapafterpnum}{\vskip 11pt} % Space after chapter entries
 
 % Section entries (level 2) formatting in ToC
-\renewcommand{\cftsecindent}{0.15in} % Indentation for sections
+\renewcommand{\cftsecindent}{0in} % Indentation for sections
 \renewcommand{\cftsecfont}{\normalfont}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
-
+\renewcommand{\cftsecafterpnum}{\vskip 11pt} % Space after section entries
 
 % Subsection entries (level 3) formatting in ToC
-\renewcommand{\cftsubsecindent}{0.30in} % Indentation for subsections
+\renewcommand{\cftsubsecindent}{0.15in} % Indentation for subsections
 \renewcommand{\cftsubsecfont}{\normalfont}
 \renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecafterpnum}{\vskip 11pt} % Space after subsection entries
 
+% Subsection entries (level 4) formatting in ToC
+\renewcommand{\cftsubsubsecindent}{0.30in} % Indentation for subsections
+\renewcommand{\cftsubsubsecfont}{\normalfont}
+\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsubsecafterpnum}{\vskip 11pt} % Space after subsection entries
+
+% ======================================================================
+% Other List Formatting
+% ======================================================================
+% Adjusting the appearance of all other lists in the document.
+% ======================================================================
+
+% List of Figures (LoF) formatting
+% --------------------------------
+\setlength{\cftbeforeloftitleskip}{0pt} % Space above LoF title
+\setlength{\cftafterloftitleskip}{11pt} % Space below LoF title
+\renewcommand\cftloftitlefont{\large\bfseries} % LoF title styling
+\renewcommand\cftfigfont{\normalfont}
+\setlength{\cftfigindent}{0pt}
+
+% List of Tables (LoT) formatting
+% -------------------------------
+\setlength{\cftbeforelottitleskip}{0pt} % Space above LoT title
+\setlength{\cftafterlottitleskip}{11pt} % Space below LoT title
+\renewcommand\cftlottitlefont{\large\bfseries} % LoT title styling
+\renewcommand\cfttabfont{\normalfont}
+\setlength{\cfttabindent}{0pt}
+
+
+% ======================================================================
+% Table Formatting
+% ======================================================================
+% Customizing the appearance of tables in the document.
+% ======================================================================
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 
 % ======================================================================
@@ -91,7 +151,7 @@
 
 
 % ======================================================================
-% Pandoc Variables
+% Title Page Variables
 % ======================================================================
 % Defining commands based on metadata variables provided by Pandoc.
 % These commands allow dynamic content insertion based on user input.
@@ -225,6 +285,10 @@ $endif$
 %======================================================================
 \AtBeginEnvironment{thebibliography}{\singlespacing}
 
+%======================================================================
+% Internal image handling (Pandoc)
+%======================================================================
+\newcommand{\pandocbounded}[2][]{#2}
 
 
 % ======================================================================
@@ -232,6 +296,15 @@ $endif$
 % ======================================================================
 % The main content of the document starts here.
 % ======================================================================
+
+% ======================================================================
+% Include Pandoc syntax highlighting macros
+% ======================================================================
+$if(highlighting-macros)$
+$highlighting-macros$
+\usepackage{fvextra}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,fontsize=$if(code-block-font-size)$$code-block-font-size$$else$\small$endif$,commandchars=\\\{\}}
+$endif$
 
 \begin{document}
 
@@ -353,11 +426,15 @@ $endif$
 % ======================================================================
 % List of Figures
 % ======================================================================
-$if(list_of_figures)$
+$if(lof)$
 \newpage
-\doublespacing
-\listoffigures
-\thispagestyle{fancy} % Use the fancy page style
+\begin{flushleft}
+    
+    \vspace{.5cm}
+    \listoffigures
+\end{flushleft}
+\addcontentsline{toc}{section}{\normalfont{List of Figures}}
+\thispagestyle{fancy}
 $endif$
 
 % ======================================================================
@@ -367,7 +444,8 @@ $if(list_of_tables)$
 \newpage
 \doublespacing
 \listoftables
-\thispagestyle{fancy} % Use the fancy page style
+\addcontentsline{toc}{section}{\normalfont{List of Tables}}
+\thispagestyle{fancy}
 $endif$
 
 % ======================================================================
@@ -380,8 +458,33 @@ $if(list_of_symbols)$
     {\large\bfseries\sffamily{List of Symbols, Abbreviations, and Nomenclature} \par}
     \vspace{.5cm}
     \doublespacing
-    $list_of_symbols$
+    $if(list_of_symbols.abbreviation)$
+    {\large\bfseries\sffamily{List of Abbreviations} \par}
+    \vspace{.5cm}
+    \begin{longtable}[l]{ll} % Left justify the table
+    $for(list_of_symbols.abbreviation)$
+    \textbf{$list_of_symbols.abbreviation.key$} & $list_of_symbols.abbreviation.value$ \\
+    $endfor$
+    \end{longtable}
+    $endif$
+    $if(list_of_symbols.symbols)$
+    {\large\bfseries\sffamily{List of Symbols} \par}
+    \vspace{.5cm}
+    \begin{longtable}[l]{ll} % Left justify the table
+    $for(list_of_symbols.symbols)$
+    \textbf{$list_of_symbols.symbols.key$} & $list_of_symbols.symbols.value$ \\
+    $endfor$
+    \end{longtable}
+    $endif$
+    $if(list_of_symbols.nomenclature)$
+    {\large\bfseries\sffamily{List of Nomenclature} \par}
+    \vspace{.5cm}
+    $for(list_of_symbols.nomenclature)$
+    \textbf{$list_of_symbols.nomenclature.key$}: $list_of_symbols.nomenclature.value$ \\
+    $endfor$
+    $endif$
 \end{flushleft}
+\addcontentsline{toc}{section}{\normalfont{List of Symbols, Abbreviations, and Nomenclature}}
 $endif$
 
 % ======================================================================
@@ -397,6 +500,7 @@ $endif$
 \setlength{\parindent}{1.5em}
 \setlength{\parskip}{0em}
 
+\setcounter{table}{0}
 $body$
 
 \end{document}
