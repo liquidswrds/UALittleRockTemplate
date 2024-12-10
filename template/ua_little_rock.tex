@@ -30,9 +30,10 @@
 \usepackage{xcolor}                 % Color support
 \usepackage{fancyvrb}               % Verbatim environment
 \usepackage{amsmath,amssymb}        % Enhanced math support
-\usepackage{lmodern}                % Latin Modern font
-\usepackage{hyperref}               % hyperref package
+% \usepackage{lmodern}                % Latin Modern font
+\usepackage[hidelinks]{hyperref}    % hyperref package
 \usepackage{mdframed}               % Framed environments
+
 
 % ======================================================================
 % blockquote
@@ -56,10 +57,11 @@
 % ======================================================================
 % Customizing the appearance of chapter, section, and subsection titles.
 % ======================================================================
-\titleformat{\chapter}[block]{\normalfont\huge\bfseries}{\thechapter.}{1em}{}
-\titleformat{\section}[block]{\normalfont\Large\bfseries}{\thesection}{1em}{}
-\titleformat{\subsection}[block]{\normalfont\large\bfseries}{\thesubsection}{1em}{}
-\titleformat{\subsubsection}[block]{\normalfont\large\bfseries}{\thesubsubsection}{1em}{}
+\renewcommand{\familydefault}{\sfdefault} % Sans-serif font
+\titleformat{\chapter}[block]{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titleformat{\section}[block]{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}[block]{\normalfont\normalsize\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}[block]{\normalfont\normalsize\bfseries\slshape}{\thesubsubsection}{1em}{}
 
 % ======================================================================
 % Table of Contents (ToC) Formatting
@@ -141,7 +143,6 @@
 \fancyhf{}         % Clear all header and footer fields
 \fancyhead[R]{\thepage} % Right-aligned page number in the header
 \renewcommand{\headrulewidth}{0pt} % Remove header rule line
-
 \renewcommand{\footnotelayout}{\setstretch{1.0}}
 
 
@@ -280,12 +281,15 @@ $endif$
 }
 
 % ======================================================================
+% Appendix Variables
+% ======================================================================
+
+
+
+% ======================================================================
 % Bibliographic entries (references)
 % ======================================================================
-% The following block of code allows for the inclusion of bibliographic
-% entries in the document. The user can choose between 'natbib' or 
-% 'biblatex'.
-% ======================================================================
+
 $if(natbib)$
 \usepackage[$natbiboptions$]{natbib}
 \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
@@ -354,11 +358,8 @@ $endif$
 % ======================================================================
 % Document Begins
 % ======================================================================
-% The main content of the document starts here.
-% ======================================================================
 \begin{document}
 
-% ======================================================================
 % Title Page
 % ======================================================================
 \begin{titlepage}
@@ -540,7 +541,6 @@ $endif$
 
 % ======================================================================
 % Chapters (to be filled in Markdown)
-% List of Appendices
 % ======================================================================
 \newpage
 \pagenumbering{arabic}
@@ -551,31 +551,33 @@ $endif$
 \setlength{\parskip}{0em}
 \setcounter{table}{0}
 $body$
+
 % ======================================================================
 % Appendices
 % ======================================================================
-\begin{appendix}
-\appendix
-\setcounter{table}{0}
-\setcounter{figure}{0}
-
-$if(appendix)$
-$for(appendix)$
-\chapter{$appendix.name$}
-$appendix.content$
-$endfor$
-$endif$
-\end{appendix}
+\begin{flushleft}
+    \titleformat{\section}[block]{\normalfont\large\bfseries}{}{1em}{}
+    \setcounter{table}{0}
+    \setcounter{figure}{0}
+    $if(appendix)$
+    $for(appendix)$
+    \newpage
+    \section{$appendix.name$}
+    $appendix.content$
+    $endfor$
+    $endif$
+\end{flushleft}
 
 % ======================================================================
 % Bibliography
 % ======================================================================
 
-\begin{frame}
+\begin{flushleft}
+    \titleformat{\section}[block]{\normalfont\large\bfseries}{}{1em}{}
 $if(natbib)$
 $if(biblio-title)$
 $if(has-chapters)$
-\renewcommand\refname{$biblio-title$} % Chapter-based documents
+\renewcommand\bibname{$biblio-title$} % Chapter-based documents
 $else$
 \renewcommand\refname{$biblio-title$} % Article-based documents
 $endif$
@@ -586,8 +588,6 @@ $endif$
 $if(biblatex)$
 \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
 $endif$
-\end{frame}
-
-
+\end{flushleft}
 
 \end{document}
