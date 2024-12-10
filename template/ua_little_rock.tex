@@ -1,10 +1,7 @@
 % ======================================================================
 % Document Class
 % ======================================================================
-% The 'report' class is suitable for longer documents containing chapters.
-% The font size is set via a Pandoc variable 'font_size', defaulting to 12pt if not specified.
-% ======================================================================
-\documentclass[$if(font_size)$$font_size$$else$12pt$endif$]{report}
+\documentclass[$if(font_size)$$font_size$$else$12pt$endif$]{book}
 
 % ======================================================================
 % Package Inclusions
@@ -12,42 +9,47 @@
 % Including necessary packages to extend LaTeX functionality.
 % It's best to load only required packages to avoid conflicts and reduce compilation time.
 % ======================================================================
-\usepackage[utf8]{inputenc}       % Allow UTF-8 encoded characters
-\usepackage{graphicx}             % Enhanced support for graphics
-\usepackage{setspace}             % Control over line spacing
-\usepackage[margin=1in]{geometry} % Customize page dimensions and margins
-\usepackage{titlesec}             % Customization of section titles
-\usepackage{tocloft}              % Customization of the Table of Contents
-\usepackage{fancyhdr}             % Custom headers and footers
-\usepackage{helvet}               % Use Helvetica font (similar to Arial)
-\usepackage{indentfirst}          % Indent the first paragraph of each section
-\usepackage{etoolbox}             % Toolbox of programming tools
-\usepackage{footmisc}             % Customization of footnotes
-\usepackage{pdfpages}             % Include PDF documents
-\usepackage{longtable}            % Tables that can span multiple pages
-\usepackage{booktabs}             % Enhances table styles
-\usepackage{caption}              % Provides caption customization
-\usepackage{calc}                 % Supports arithmetic calculations
-\usepackage{array}                % Extended array and tabular features
-\usepackage{multirow}             % Allows table cells to span multiple rows
-\usepackage{framed}               % Adds framed environment
-\usepackage{xcolor}               % Color support
-\usepackage{fancyvrb}             % Verbatim environment
-\usepackage{amsmath,amssymb}      % Enhanced math support
-\usepackage{lmodern}              % Latin Modern font
-\usepackage{hyperref}             % Add this line to include the hyperref package
+\usepackage[utf8]{inputenc}         % Allow UTF-8 encoded characters
+\usepackage{graphicx}               % Enhanced support for graphics
+\usepackage{setspace}               % Control over line spacing
+\usepackage[margin=1in]{geometry}   % Customize page dimensions and margins
+\usepackage{titlesec}               % Customization of section titles
+\usepackage{tocloft}                % Customization of the Table of Contents
+\usepackage{fancyhdr}               % Custom headers and footers
+\usepackage{helvet}                 % Use Helvetica font (similar to Arial)
+\usepackage{indentfirst}            % Indent the first paragraph of each section
+\usepackage{etoolbox}               % Toolbox of programming tools
+\usepackage{footmisc}               % Customization of footnotes
+\usepackage{pdfpages}               % Include PDF documents
+\usepackage{longtable}              % Tables that can span multiple pages
+\usepackage{booktabs}               % Enhances table styles
+\usepackage{caption}                % Provides caption customization
+\usepackage{array}                  % Extended array and tabular features
+\usepackage{multirow}               % Allows table cells to span multiple rows
+\usepackage{framed}                 % Adds framed environment
+\usepackage{xcolor}                 % Color support
+\usepackage{fancyvrb}               % Verbatim environment
+\usepackage{amsmath,amssymb}        % Enhanced math support
+\usepackage{lmodern}                % Latin Modern font
+\usepackage{hyperref}               % hyperref package
+\usepackage{mdframed}               % Framed environments
 
 % ======================================================================
 % blockquote
 % ======================================================================
 \definecolor{blockquote-border}{RGB}{221,221,221}
 \definecolor{blockquote-text}{RGB}{119,119,119}
-\usepackage{mdframed}
-\newmdenv[rightline=false,bottomline=false,topline=false,linewidth=3pt,linecolor=blockquote-border,skipabove=\parskip]{customblockquote}
-\renewenvironment{quote}{\begin{customblockquote}\list{}{\rightmargin=0em\leftmargin=0em}%
-\item\relax\color{blockquote-text}\ignorespaces}{\unskip\unskip\endlist\end{customblockquote}}
-
-
+\newmdenv[
+    rightline=false,bottomline=false,topline=false,
+    linewidth=3pt,linecolor=blockquote-border,
+    skipabove=\parskip
+]{customblockquote}
+\renewenvironment{quote}{%
+  \begin{customblockquote}
+  \list{}{\rightmargin=0em\leftmargin=0em}\item\relax\color{blockquote-text}\ignorespaces
+}{%
+  \unskip\endlist\end{customblockquote}
+}
 
 % ======================================================================
 % Section Title Formatting
@@ -175,6 +177,7 @@ $else$
 \newcommand{\authorname}{[Author Placeholder]}
 $endif$
 
+% Degree and submission type logic
 $if(PHD)$
 \newcommand{\degree}{Doctor of Philosophy}
 \newcommand{\submissiontype}{dissertation}
@@ -185,8 +188,8 @@ $elseif(MS)$
 \newcommand{\degree}{Master of Science}
 \newcommand{\submissiontype}{thesis}
 $else$
-\newcommand{\degree}{[Placeholder Degree]}
-\newcommand{\submissiontype}{[Placeholder Submission Type]}
+\newcommand{\degree}{[Degree Placeholder]}
+\newcommand{\submissiontype}{[Submission Type Placeholder]}
 $endif$
 
 $if(program)$
@@ -210,57 +213,52 @@ $endif$
 $if(gradmonthyear.month)$
 \newcommand{\gradmonth}{$gradmonthyear.month$}
 $else$
-\newcommand{\gradmonth}{[Month Placeholder]}
+\newcommand{\gradmonth}{[Month]}
 $endif$
 
 $if(gradmonthyear.year)$
 \newcommand{\gradyear}{$gradmonthyear.year$}
 $else$
-\newcommand{\gradyear}{[Year Placeholder]}
+\newcommand{\gradyear}{[Year]}
 $endif$
 
+% Chair and committee info
 $if(chair_name)$
 \newcommand{\chairname}{$chair_name$}
 $else$
-\newcommand{\chairname}{[Chair Name Placeholder]}
+\newcommand{\chairname}{[Chair Name]}
 $endif$
 
 $if(chair_title)$
 \newcommand{\chairtitle}{$chair_title$}
 $else$
-\newcommand{\chairtitle}{[Chair Title Placeholder]}
+\newcommand{\chairtitle}{[Chair Title]}
 $endif$
 
 $if(chair_department)$
 \newcommand{\chairdepartment}{$chair_department$}
 $else$
-\newcommand{\chairdepartment}{[Chair Department Placeholder]}
+\newcommand{\chairdepartment}{[Chair Department]}
 $endif$
 
 $if(cochair_name)$
 \newcommand{\cochairname}{$cochair_name$}
 $else$
-\newcommand{\cochairname}{[Co-chair Name Placeholder]}
+\newcommand{\cochairname}{}
 $endif$
 
 $if(cochair_title)$
 \newcommand{\cochairtitle}{$cochair_title$}
 $else$
-\newcommand{\cochairtitle}{[Co-chair Title Placeholder]}
+\newcommand{\cochairtitle}{}
 $endif$
 
 $if(cochair_department)$
 \newcommand{\cochairdepartment}{$cochair_department$}
 $else$
-\newcommand{\cochairdepartment}{[Co-chair Department Placeholder]}
+\newcommand{\cochairdepartment}{}
 $endif$
 
-% ======================================================================
-% Committee Members
-% ======================================================================
-% Dynamically generates the list of committee members.
-% Iterates over 'committee_members' metadata provided by Pandoc.
-% ======================================================================
 \newcommand{\committeemembers}{
 $if(committee_members)$
 $for(committee_members)$
@@ -481,7 +479,6 @@ $endif$
 $if(lof)$
 \newpage
 \begin{flushleft}
-    
     \vspace{.5cm}
     \listoffigures
 \end{flushleft}
@@ -495,7 +492,9 @@ $endif$
 $if(list_of_tables)$
 \newpage
 \doublespacing
-\listoftables
+\begin{flushleft}
+    \listoftables
+\end{flushleft}
 \addcontentsline{toc}{section}{\normalfont{List of Tables}}
 \thispagestyle{fancy}
 $endif$
@@ -547,18 +546,32 @@ $endif$
 \pagenumbering{arabic}
 \setcounter{page}{1}
 \doublespacing
-
 % Indent paragraphs in the body
 \setlength{\parindent}{1.5em}
 \setlength{\parskip}{0em}
-
 \setcounter{table}{0}
 $body$
+% ======================================================================
+% Appendices
+% ======================================================================
+\begin{appendix}
+\appendix
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
+$if(appendix)$
+$for(appendix)$
+\chapter{$appendix.name$}
+$appendix.content$
+$endfor$
+$endif$
+\end{appendix}
 
 % ======================================================================
 % Bibliography
 % ======================================================================
 
+\begin{frame}
 $if(natbib)$
 $if(biblio-title)$
 $if(has-chapters)$
@@ -573,6 +586,8 @@ $endif$
 $if(biblatex)$
 \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
 $endif$
+\end{frame}
+
 
 
 \end{document}
