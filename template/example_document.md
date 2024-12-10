@@ -79,7 +79,7 @@ acknowledgements: >
 dedication: >
   This is a dedication to all that blah blah. (Replace with your dedication text.)
 
-protocol_irb_approval: example.pdf                      # Path to the pdf. Comment out if not needed
+# protocol_irb_approval: example.pdf                      # Path to the pdf. Comment out if not needed
 lof: true                                               # List of figures: Set to false or comment if not needed
 list_of_tables: true                                    # List of tables: Set to false or comment out if not needed
 
