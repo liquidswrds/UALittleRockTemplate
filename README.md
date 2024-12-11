@@ -1,10 +1,10 @@
 # UALittleRockTemplate
 
-This is a template for graduate thesis or dissertation using pandoc, LaTEX, and Markdown. You should have a basic understanding of Markdown and LaTEX. 
+This is a template for graduate thesis or dissertation using pandoc, LaTEX, and Markdown. You should have a basic understanding of Markdown and LaTEX.
 
-If you are looking for information on Markdown: [Markdown Guide](https://www.markdownguide.org/)
-If you are looking for information on LaTEX: [LaTEX Wiki](https://en.wikibooks.org/wiki/LaTeX)
-If you are looking for information on pandoc: [Pandoc User Guide](https://pandoc.org/MANUAL.html)
+- If you are looking for information on Markdown: [Markdown Guide](https://www.markdownguide.org/)
+- If you are looking for information on LaTEX: [LaTEX Wiki](https://en.wikibooks.org/wiki/LaTeX)
+- If you are looking for information on pandoc: [Pandoc User Guide](https://pandoc.org/MANUAL.html)
 
 ## Installation
 
