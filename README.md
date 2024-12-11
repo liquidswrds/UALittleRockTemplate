@@ -41,19 +41,27 @@ Welcome to the UA Little Rock Dissertation/Thesis Template repository! This proj
 
    Example command:
 
-   ```bash
-   pandoc -s -o test.pdf --template=ua_little_rock.tex example_document.md --citeproc
+   ```sh
+   pandoc -s -o <output-file>.pdf --template=<path/to/ua_little_rock.tex> <input-file>.md --citeproc
    ```
+
+   - `pandoc`: The Pandoc command-line tool.
+   - `-s`: Standalone mode to generate a standalone document with a header and footer.
+   - `-o`: Output file name.
+   - `--template`: Path to the LaTeX template file.
+   - `--citeproc`: Enable citation processing.
+
+    Replace `<output-file>` with the desired PDF file name, `<input-file>` with the Markdown file name, and `<path/to/ua_little_rock.tex>` with the path to the LaTeX template.
 
 3. Review and refine the generated PDF to ensure compliance with UA Little Rock formatting guidelines.
 
 ## YAML Variables for UA Little Rock Dissertation/Thesis Template
 
-Below is a detailed explanation of the YAML variables used in the template. Each variable includes its type, explanation, and an example of how it can be used.
+Below is a detailed explanation of the YAML variables used in the template. Each variable includes its type, explanation, and an example of how it can be used. If a variable is marked as **Required**, it must be included in the YAML front matter. If it is optional, you can choose to include it based on your needs.
 
 ### Thesis/Dissertation Details
 
-#### `title` (Type: string)
+#### `title` (Type: string, **Required**)
 
 - **Description:** The title of your thesis or dissertation.
 - **Example:**
@@ -71,7 +79,7 @@ Below is a detailed explanation of the YAML variables used in the template. Each
   subtitle: "Applications and Implications"
   ```
 
-#### `author` (Type: string)
+#### `author` (Type: string, **Required**)
 
 - **Description:** The name of the author (you).
 - **Example:**
@@ -80,7 +88,9 @@ Below is a detailed explanation of the YAML variables used in the template. Each
   author: "Jane Doe"
   ```
 
-### Degree Information
+### Degree Information - Only one of the following is required
+
+Uncomment the appropriate degree type based on your academic program and set to true or you can remove the unnecessary fields.
 
 #### `PHD` (Type: boolean)
 
@@ -102,9 +112,9 @@ Below is a detailed explanation of the YAML variables used in the template. Each
 
 ### Document Formatting
 
-#### `font_size` (Type: int)
+#### `font_size` (Type: int, **Required**)
 
-- **Description:** The font size for the document text.
+- **Description:** The font size for the document text. Default is 12pt.
 - **Example:**
 
   ```yaml
@@ -113,7 +123,7 @@ Below is a detailed explanation of the YAML variables used in the template. Each
 
 ### Institution Details
 
-#### `program` (Type: string)
+#### `program` (Type: string, **Required**)
 
 - **Description:** The name of your academic program.
 - **Example:**
@@ -122,27 +132,27 @@ Below is a detailed explanation of the YAML variables used in the template. Each
   program: "Computer Science"
   ```
 
-#### `department` (Type: string)
+#### `department` (Type: string, **Required**)
 
-- **Description:** The name of your department.
+- **Description:** The name of your degree department.
 - **Example:**
 
   ```yaml
   department: "Department of Computer Science"
   ```
 
-#### `college` (Type: string)
+#### `college` (Type: string, **Required**)
 
-- **Description:** The name of your college.
+- **Description:** The name of your degree college.
 - **Example:**
 
   ```yaml
-  college: "College of Engineering and Information Technology"
+  college: "College of Engineering and Information Technology" 
   ```
 
 ### Graduation Date
 
-#### `gradmonthyear` (Type: object)
+#### `gradmonthyear` (Type: object, **Required**)
 
 - **Description:** Specifies your graduation month and year.
 - **Example:**
@@ -155,7 +165,7 @@ Below is a detailed explanation of the YAML variables used in the template. Each
 
 ### Chair/Co-chair Details
 
-#### `chair_name`, `chair_title`, `chair_department` (Type: string)
+#### `chair_name`, `chair_title`, `chair_department` (Type: string, **Required**)
 
 - **Description:** Information about your chairperson.
 - **Example:**
@@ -166,7 +176,7 @@ Below is a detailed explanation of the YAML variables used in the template. Each
   chair_department: "Department of Computer Science"
   ```
 
-#### `cochair_name`, `cochair_title`, `cochair_department` (Type: string, optional)
+#### `cochair_name`, `cochair_title`, `cochair_department` (Type: string, **Only if Required**)
 
 - **Description:** Information about your co-chairperson, if applicable.
 - **Example:**
@@ -179,7 +189,7 @@ Below is a detailed explanation of the YAML variables used in the template. Each
 
 ### Committee Details
 
-#### `committee_members` (Type: list of objects)
+#### `committee_members` (Type: list of objects, **Only if Required**)
 
 - **Description:** Information about your committee members, including their name, title, department, and affiliation.
 - **Example:**
@@ -197,7 +207,7 @@ Below is a detailed explanation of the YAML variables used in the template. Each
 
 ### Abstract Section
 
-#### `abstract` (Type: string)
+#### `abstract` (Type: string, **Required**)
 
 - **Description:** A summary of your research, including problem statement, methodology, results, and analysis.
 - **Example:**
@@ -210,7 +220,7 @@ Below is a detailed explanation of the YAML variables used in the template. Each
 
 ### References/Bibliography
 
-#### `bibliography` (Type: list of strings)
+#### `bibliography` (Type: list of strings, **Required**)
 
 - **Description:** Path(s) to your BibLaTeX file(s).
 - **Example:**
@@ -219,7 +229,7 @@ Below is a detailed explanation of the YAML variables used in the template. Each
   bibliography: ['references/references.bib']
   ```
 
-#### `csl` (Type: string)
+#### `csl` (Type: string, **Required**)
 
 - **Description:** Path to the Citation Style Language file.
 - **Example:**
@@ -322,4 +332,3 @@ For questions or support, please open an issue in the repository.
 Parts of this template were derived from Wandmalfarbe's pandoc-latex-template and can be found here: [https://github.com/Wandmalfarbe/pandoc-latex-template.git](https://github.com/Wandmalfarbe/pandoc-latex-template.git)
 
 Special thanks to the University of Arkansas at Little Rock for their academic resources and to the open-source community for tools like Pandoc and LaTeX.
-
